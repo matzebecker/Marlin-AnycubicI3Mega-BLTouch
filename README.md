@@ -1,6 +1,6 @@
 # Anycubic i3 Mega Marlin 1.1.9 by davidramiro
 
-This is my slightly customized version of the [Marlin Firmware](https://github.com/MarlinFirmware/Marlin), gratefully based on [derhopp's repo](https://github.com/derhopp/Marlin-with-Anycubic-i3-Mega-TFT) with his remarkable efforts to get the Anycubic i3 Mega TFT screen to work.
+This is my slightly customized version of the [Marlin Firmware](https://github.com/MarlinFirmware/Marlin), gratefully based on [derhopp's repo](https://github.com/derhopp/Marlin-with-Anycubic-i3-Mega-TFT) and [davidramiros's repo](https://github.com/davidramiro/Marlin-AI3M) with their remarkable efforts on many functions (like Anycubic i3 Mega TFT screen, Mesh Leveling, ...).
 
 Feel free to discuss issues and work with me further optimizing this firmware!
 
@@ -27,20 +27,13 @@ While the i3 Mega is a great printer for its price and produces fantastic result
 - No need to slice and upload custom bed leveling tests, simply start one with a simple G26 command.
 - Easily start an auto PID tune or mesh bed leveling via the special menu (insert SD card, select special menu and press the round arrow)
 
-## How to flash this?
+## Are there pre-compiled firmware files?
 
-I provided three different precompiled hex files: One for no modifications on the stepper motor drivers - good for people who didn't touch anything yet, one for boards with TMC2208 installed and where the connectors have been flipped and one with TMC2208 and the connectors in original orientation.
+No!
+I have decided **NOT** to provide precompiled hex files. Due to various settings which are necessary for the use of a BLTouch, this does not make sense and can only lead to problems.
+However, it is not difficult to compile the firmware yourself :-)
 
-### Choose your precompiled hex:
-
-- Download the precompiled firmware here: [Releases](https://github.com/davidramiro/Marlin-AI3M/releases)
-- Choose the correct hex file:
-- For TMC2208 with connectors in original orientation, use `Marlin-AI3M-XXXXXX-TMC2208.hex`
-- If you use TMC2208 and already reversed your connectors, use `Marlin-AI3M-XXXXXX-TMC2208_reversed.hex`
-- If you use a newer version of the TMC2208 that doesn't require the connector to be reversed (TMC2208 "v2.0" written on the PCB, chip on the top side), please also use `Marlin-AI3M-XXXXXX-TMC2208_reversed.hex`.
-- If you use the original stepper motor drivers, use `Marlin-AI3M-XXXXXX-stock_drivers.hex`.
-
-### Or compile it yourself:
+### Compile it yourself:
 
 - Download Arduino IDE
 - Clone or download this repo
@@ -152,16 +145,18 @@ After flashing the new version, issue a `M502` and `M500`. After that, enter eve
 ## Detailed changes:
 
 - Thermal runaway protection enabled
+- Integration of TMC2208 stepper driver
 - Stepper orientation flipped (you don't have to flip the connectors on the board anymore)
 - Linear advance unlocked (Off by default. [Research, calibrate](http://marlinfw.org/docs/features/lin_advance.html) and then enable with `M900 Kx`)
 - S-Curve Acceleration enabled
 - G26 Mesh Validation enabled
 - Some redundant code removed to save memory
-- Manual mesh bed leveling enabled ([check this link](https://github.com/MarlinFirmware/Marlin/wiki/Manual-Mesh-Bed-Leveling) to learn more about it)
+- Automatic bed leveling enabled ([check this link](http://marlinfw.org/docs/features/auto_bed_leveling.html) to learn more about it) - BLTouch required!
 - Heatbed PID mode enabled
 - Minor tweaks on default jerk and acceleration
 - 12V capability on FAN0 (parts cooling fan) enabled
 - No startup beep
+- Clean Nozzle enabled
 
 
 ## Menu mods by derhopp:
@@ -245,4 +240,3 @@ Notable contributors include:
 ## License
 
 Marlin is published under the [GPLv3 license](https://github.com/MarlinFirmware/Marlin/blob/1.0.x/COPYING.md) because we believe in open development. The GPL comes with both rights and obligations. Whether you use Marlin firmware as the driver for your open or closed-source product, you must keep Marlin open, and you must provide your compatible Marlin source code to end users upon request. The most straightforward way to comply with the Marlin license is to make a fork of Marlin on Github, perform your modifications, and direct users to your modified fork.
-
