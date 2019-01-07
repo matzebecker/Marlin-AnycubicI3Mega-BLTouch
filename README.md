@@ -1,4 +1,4 @@
-# Anycubic i3 Mega Marlin 1.1.9 by davidramiro
+# Anycubic i3 Mega Marlin 1.1.9 by DerDominik
 
 This is my slightly customized version of the [Marlin Firmware](https://github.com/MarlinFirmware/Marlin), gratefully based on [derhopp's repo](https://github.com/derhopp/Marlin-with-Anycubic-i3-Mega-TFT) and [davidramiros's repo](https://github.com/davidramiro/Marlin-AI3M) with their remarkable efforts on many functions (like Anycubic i3 Mega TFT screen, Mesh Leveling, ...).
 
@@ -32,6 +32,10 @@ While the i3 Mega is a great printer for its price and produces fantastic result
 No!
 I have decided **NOT** to provide precompiled hex files. Due to various settings which are necessary for the use of a BLTouch, this does not make sense and can only lead to problems.
 However, it is not difficult to compile the firmware yourself :-)
+
+## Which changes are necessary?
+
+I'll describe the necessary changes for using at least BLTouch in the Wiki, which I'll update the next days. Description will be available in german.
 
 ### Compile it yourself:
 
