@@ -160,13 +160,13 @@ After flashing the new version, issue a `M502` and `M500`. After that, enter eve
 - Some redundant code removed to save memory
 - Minor tweaks on default jerk and acceleration
 - Printcounter enabled (`M78`)
-- 12V capability on FAN0 (parts cooling fan) enabled
-- No startup beep
 - Clean Nozzle enabled
 
 
-## Menu mods by derhopp:
+## Changes by [derhopp](https://github.com/derhopp/):
 
+- 12V capability on FAN0 (parts cooling fan) enabled
+- Buzzer disabled (e.g. startup beep)
 - Subdirectory support: Press the round arrow after selecting a directory
 - Special menu in the SD file menu: Press the round arrow after selecting `Special menu`
 
