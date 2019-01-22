@@ -148,16 +148,18 @@ After flashing the new version, issue a `M502` and `M500`. After that, enter eve
 
 ## Detailed changes:
 
-- Thermal runaway protection enabled
-- Integration of TMC2208 stepper driver
+- Thermal runaway protection enabled and tweaked
+- Automatic bed leveling enabled ([check this link](http://marlinfw.org/docs/features/auto_bed_leveling.html) to learn more about it) - BLTouch required!
+- Manual mesh bed leveling possible ([check this link](https://github.com/MarlinFirmware/Marlin/wiki/Manual-Mesh-Bed-Leveling) to learn more about it)
+- Heatbed PID mode enabled
+- TMC2208 integrated and configured in standalone mode
 - Stepper orientation flipped (you don't have to flip the connectors on the board anymore)
 - Linear advance unlocked (Off by default. [Research, calibrate](http://marlinfw.org/docs/features/lin_advance.html) and then enable with `M900 Kx`)
 - S-Curve Acceleration enabled
 - G26 Mesh Validation enabled
 - Some redundant code removed to save memory
-- Automatic bed leveling enabled ([check this link](http://marlinfw.org/docs/features/auto_bed_leveling.html) to learn more about it) - BLTouch required!
-- Heatbed PID mode enabled
 - Minor tweaks on default jerk and acceleration
+- Printcounter enabled (`M78`)
 - 12V capability on FAN0 (parts cooling fan) enabled
 - No startup beep
 - Clean Nozzle enabled
