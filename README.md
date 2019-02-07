@@ -1,6 +1,6 @@
 # Anycubic i3 Mega Marlin 1.1.9 by matzebecker
 
-This is my slightly customized version of the [Marlin Firmware](https://github.com/MarlinFirmware/Marlin), gratefully based on [derhopp's repo](https://github.com/derhopp/Marlin-with-Anycubic-i3-Mega-TFT), [davidramiros's repo](https://github.com/davidramiro/Marlin-AI3M), and [DerDominik](https://github.com/DerDominik/Marlin-AnycubicI3Mega-BLTouch) with their remarkable efforts on many functions (like Anycubic i3 Mega TFT screen, Mesh Leveling, ...).
+This is my slightly customized version of the [Marlin Firmware](https://github.com/MarlinFirmware/Marlin), gratefully based on [derhopp's repo](https://github.com/derhopp/Marlin-with-Anycubic-i3-Mega-TFT), [davidramiros's repo](https://github.com/davidramiro/Marlin-AI3M), and [DerDominik's repo](https://github.com/DerDominik/Marlin-AnycubicI3Mega-BLTouch) with their remarkable efforts on many functions (like Anycubic i3 Mega TFT screen, Mesh Leveling, ...).
 
 Feel free to discuss issues and work with me further optimizing this firmware!
 
