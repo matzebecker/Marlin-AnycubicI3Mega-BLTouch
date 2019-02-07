@@ -1,11 +1,10 @@
-# Anycubic i3 Mega Marlin 1.1.9 by DerDominik
+# Anycubic i3 Mega Marlin 1.1.9 by matzebecker
 
-This is my slightly customized version of the [Marlin Firmware](https://github.com/MarlinFirmware/Marlin), gratefully based on [derhopp's repo](https://github.com/derhopp/Marlin-with-Anycubic-i3-Mega-TFT) and [davidramiros's repo](https://github.com/davidramiro/Marlin-AI3M) with their remarkable efforts on many functions (like Anycubic i3 Mega TFT screen, Mesh Leveling, ...).
+This is my slightly customized version of the [Marlin Firmware](https://github.com/MarlinFirmware/Marlin), gratefully based on [derhopp's repo](https://github.com/derhopp/Marlin-with-Anycubic-i3-Mega-TFT), [davidramiros's repo](https://github.com/davidramiro/Marlin-AI3M), and [DerDominik](https://github.com/DerDominik/Marlin-AnycubicI3Mega-BLTouch) with their remarkable efforts on many functions (like Anycubic i3 Mega TFT screen, Mesh Leveling, ...).
 
 Feel free to discuss issues and work with me further optimizing this firmware!
 
-I am running this version on an i3 Mega Ultrabase V3 (for distinction of the different versions, check [this Thingiverse thread](https://www.thingiverse.com/groups/anycubic-i3-mega/forums/general/topic:27064)).
-Basically, this should work on every Ultrabase version that has two Z-axis endstops. The new Mega-S works too, but calibrating your extruder is mandatory since it needs to have increased E-steps to around fivefold of the original value, see the instructions below.
+I am running this version on an i3 Mega Ultrabase V3 (for distinction of the different versions, check [this Thingiverse thread](https://www.thingiverse.com/groups/anycubic-i3-mega/forums/general/topic:27064)). Additionally, I upgraded the extruder to the new version of the i3 Mega-S.
 
 Note: This is just a firmware, not magic. A big part of print quality still depends on your slicer settings and mechanical condition of your machine. Since I have reduced the acceleration and jerk settings a bit, depending on your slicer the estimated print time might be around 20% lower. You can compensate that loss of speed by raising the general print speed without losing quality.
 
