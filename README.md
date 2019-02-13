@@ -2,6 +2,10 @@
 
 This is my slightly customized version of the [Marlin Firmware](https://github.com/MarlinFirmware/Marlin), gratefully based on [derhopp's repo](https://github.com/derhopp/Marlin-with-Anycubic-i3-Mega-TFT), [davidramiros's repo](https://github.com/davidramiro/Marlin-AI3M), and [DerDominik's repo](https://github.com/DerDominik/Marlin-AnycubicI3Mega-BLTouch) with their remarkable efforts on many functions (like Anycubic i3 Mega TFT screen, Mesh Leveling, ...).
 
+## Mega-S branch
+
+This branch is set up to work for the Mega-S. Consider this a work-in-progress as I don't have this particular model and have to rely on others testing it.
+
 Feel free to discuss issues and work with me further optimizing this firmware!
 
 I am running this version on an i3 Mega Ultrabase V3 (for distinction of the different versions, check [this Thingiverse thread](https://www.thingiverse.com/groups/anycubic-i3-mega/forums/general/topic:27064)). Additionally, I upgraded the extruder to the new version of the i3 Mega-S.
@@ -152,6 +156,40 @@ G26 C H200 P25 R25
 ![M600 Demo][m600 demo]
 
 [m600 demo]: https://kore.cc/i3mega/img/m600demo.jpg "M600 demo"
+
+- Get your old E-Steps with `M503`. Look for the line starting with `M92`, the value after the `E` are your current steps.
+- Preheat the hotend with `M104 S220`
+- Send `M83` to prepare the extruder
+- Use a caliper or measuring tape and mark 120 mm (measured downwards from the extruder intake) with a pencil on the filament
+- Send `G1 E100 F100`
+- Your extruder will feed 100 mm of filament now (takes 60 seconds)
+- Measure where your pencil marking is now. If it's exactly 20 mm to the extruder, it's perfectly calibrated
+- If it's less or more than 20 mm, subtract that value from 120 mm, e.g.:
+- If you measure 25 mm, your result would be 95 mm. If you measure 15 mm, your result would be 105 mm
+- Calculate your new value: (100 mm / actually extruded filament) * your current E-Steps (default: 384)
+- For example, if your markings are at 15 mm, you'd calculate: (100/105) * 384 = 365.72
+- Put in the new value like this: `M92 X80.00 Y80.00 Z400.00 Exxx.xx`, replacing `x` with your value
+- Save with `M500`
+- Finish with `M82`
+
+- You can repeat the process if you want to get even more precise, you'd have to replace 92.6 with your newly calibrated value in the next calculation.
+
+### PID tuning
+
+**PID calibration is only necessary if you experience fluctuating temperatures.**
+
+- Turn on parts cooling fan If you have a radial blower fan like the original one, I generally recommend running it at 70% because of the 12V mod (`M106 S191`). Remember to also limit it in your slicer.
+- Send `M303 E0 S210 C6 U1` to start extruder PID auto tuning
+- Wait for it to finish
+- Send `M303 E-1 S60 C6 U1` to start heatbed PID auto tuning
+- Wait for it to finish
+- Save with `M500`, turn off fan with `M106 S0`
+
+Note: These commands are tweaked for PLA printing at up to 210/60 °C. If you run into issues at higher temperatures (e.g. PETG & ABS), simply change the `S` parameter to your desired temperature
+
+**Reminder**: PID tuning sometimes fails. If you get fluctuating temperatures or the heater even fails to reach your desired temperature after tuning, you can always go back to the stock settings by sending `M301 P16.43 I1.04 D61.37` and save with `M500`.
+
+## M600 Filament Change
 
 **A USB host (OctoPrint, Pronterface, ...) is required to use this.**
 
