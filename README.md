@@ -10,12 +10,20 @@ Feel free to discuss issues and work with me further optimizing this firmware!
 
 I am running this version on an i3 Mega Ultrabase V3 (for distinction of the different versions, check [this Thingiverse thread](https://www.thingiverse.com/groups/anycubic-i3-mega/forums/general/topic:27064)). Additionally, I upgraded the extruder to the new version of the i3 Mega-S.
 
-**The new Mega-S is not officially supported. You can try your luck, but I have no means of troubleshooting issues with that machine. E-steps need to be set to 384 (`M92 E384.00` + `M500`), and afterwards calibration is highly recommended as per the instructions on the [Wiki](https://github.com/davidramiro/Marlin-AI3M/wiki/Extruder-Calibration/).**
+The new **Mega-S** should work too, but you will need to enter those two commands to make the new extruder work:
+```
+M92 E384
+M500
+```
+Afterwards, calibration is highly recommended as per the instructions on the [Wiki](https://github.com/davidramiro/Marlin-AI3M/wiki/Calibration/).
+
+Looking for a **BLtouch firmware**? Head [this way](https://github.com/MNieddu91/Marlin-AI3M-BLTouch)! Mounting and configuration instructions are included.
 
 Note: This is just a firmware, not magic. A big part of print quality still depends on your slicer settings and mechanical condition of your machine.
 
 #### Make sure to take a look at the [Wiki](https://github.com/davidramiro/Marlin-AI3M/wiki/), especially the [FAQ](https://github.com/davidramiro/Marlin-AI3M/wiki/Frequently-Asked-Questions).
 
+A German translation of the instructions can be found [here](https://kore.cc/i3mega/download/marlin-ai3m_german.pdf).
 
 ## Known issues:
 
@@ -23,7 +31,7 @@ Note: This is just a firmware, not magic. A big part of print quality still depe
 - Estimated print times from your slicer might be slightly off.
 - Special characters on any file or folders name on the SD card will cause the file menu to freeze. Simply replace or remove every special character (Chinese, Arabic, Russian, accents, German & Scandinavian umlauts, ...) from the name. Symbols like dashes or underscores are no problem.
 **Important note: On the SD card that comes with the printer there is a folder with Chinese characters in it by default. Please rename or remove it.**
-- Cancelling prints via display is buggy sometimes, simply reboot the printer when the menu shows an error. Protip: Switch to OctoPrint.
+- Cancelling prints after pausing may show an error. Simply resume the print before canceling. Protip: Switch to OctoPrint.
 
 
 ## Why use this?
@@ -36,7 +44,7 @@ While the i3 Mega is a great printer for its price and produces fantastic result
 - Even better print quality by adding Linear Advance, S-Curve Acceleration and some tweaks on jerk and acceleration.
 - Thermal runaway protection: Reducing fire risk by detecting a faulty or misaligned thermistor.
 - Very loud stock stepper motor drivers, easily replaced by Watterott or FYSETC TMC2208. To do that, you'd usually have to flip the connectors on the board, this is not necessary using this firmware.
-- No need to slice and upload custom bed leveling tests, simply start one with a simple G26 command.
+- No need to slice and upload custom bed leveling tests, test it with a single GCode command
 - Easily start an auto PID tune or mesh bed leveling via the special menu (insert SD card, select special menu and press the round arrow)
 - Filament change feature enabled: Switch colors/material mid print with `M600` (instructions below)
 
@@ -157,58 +165,36 @@ G26 C H200 P25 R25
 
 [m600 demo]: https://kore.cc/i3mega/img/m600demo.jpg "M600 demo"
 
-- Get your old E-Steps with `M503`. Look for the line starting with `M92`, the value after the `E` are your current steps.
-- Preheat the hotend with `M104 S220`
-- Send `M83` to prepare the extruder
-- Use a caliper or measuring tape and mark 120 mm (measured downwards from the extruder intake) with a pencil on the filament
-- Send `G1 E100 F100`
-- Your extruder will feed 100 mm of filament now (takes 60 seconds)
-- Measure where your pencil marking is now. If it's exactly 20 mm to the extruder, it's perfectly calibrated
-- If it's less or more than 20 mm, subtract that value from 120 mm, e.g.:
-- If you measure 25 mm, your result would be 95 mm. If you measure 15 mm, your result would be 105 mm
-- Calculate your new value: (100 mm / actually extruded filament) * your current E-Steps (default: 384)
-- For example, if your markings are at 15 mm, you'd calculate: (100/105) * 384 = 365.72
-- Put in the new value like this: `M92 X80.00 Y80.00 Z400.00 Exxx.xx`, replacing `x` with your value
-- Save with `M500`
-- Finish with `M82`
-
-- You can repeat the process if you want to get even more precise, you'd have to replace 92.6 with your newly calibrated value in the next calculation.
-
-### PID tuning
-
-**PID calibration is only necessary if you experience fluctuating temperatures.**
-
-- Turn on parts cooling fan If you have a radial blower fan like the original one, I generally recommend running it at 70% because of the 12V mod (`M106 S191`). Remember to also limit it in your slicer.
-- Send `M303 E0 S210 C6 U1` to start extruder PID auto tuning
-- Wait for it to finish
-- Send `M303 E-1 S60 C6 U1` to start heatbed PID auto tuning
-- Wait for it to finish
-- Save with `M500`, turn off fan with `M106 S0`
-
-Note: These commands are tweaked for PLA printing at up to 210/60 °C. If you run into issues at higher temperatures (e.g. PETG & ABS), simply change the `S` parameter to your desired temperature
-
-**Reminder**: PID tuning sometimes fails. If you get fluctuating temperatures or the heater even fails to reach your desired temperature after tuning, you can always go back to the stock settings by sending `M301 P16.43 I1.04 D61.37` and save with `M500`.
-
-## M600 Filament Change
-
-**A USB host (OctoPrint, Pronterface, ...) is required to use this.**
+**Printing via USB is highly recommended for this.**
 
 #### Configuration:
 - Send `M603 L0 U0` to use manual loading & unloading.
-- Send `M603 L530 U555` to use automatic loading & unloading
+- Send `M603 L538 U555` to use automatic loading & unloading
+  - The `L` and `U` paramters define the load and unload length in mm. The values above work well on a stock setup, if you modded your extruder, bowden tube or hotend, you might need to adjust those.
 - Save with `M500`
 
 #### Filament change process (manual loading):
-- Place `M600` in your GCode at the desired layer or send it manually
+- For printing via SD:
+  - Place `M600` in your GCode at the desired layer
+- For printing via USB:
+  - Place `M600` in your GCode at the desired layer or send it via terminal
+  - Alternatively: Use `FilamentChange Pause` in the Special Menu
 - The nozzle will park and your printer will beep
 - Remove the filament from the bowden tube
 - Insert the new filament right up to the nozzle, just until a bit of plastic oozes out
 - Remove the excess filament from the nozzle with tweezers
-- Send `M108` via your USB host.
-- Note for OctoPrint users: After sending `M108`, enable the advanced options at the bottom of the terminal and press `Fake Acknowledgement`
+- For printing via SD:
+  - Click `CONTINUE` on the screen
+- For printing via USB:
+  - Send `M108` via your USB host or use `FilamentChange Resume` in the Special Menu
+  - Note for OctoPrint users: After sending `M108`, enable the advanced options at the bottom of the terminal and press `Fake Acknowledgement`
 
 #### Filament change process (automatic loading):
-- Place `M600` in your GCode at the desired layer or send it manually
+- For printing via SD:
+  - Place `M600` in your GCode at the desired layer
+- For printing via USB:
+  - Place `M600` in your GCode at the desired layer or send it via terminal
+  - Alternatively: Use `FilamentChange Pause` in the Special Menu
 - The nozzle will park
 - The printer will remove the filament right up to the extruder and beep when finished
 - Insert the new filament just up to the end of the bowden fitting, as shown here:
@@ -217,8 +203,11 @@ Note: These commands are tweaked for PLA printing at up to 210/60 °C. If you ru
 
 [m600 load]: https://kore.cc/i3mega/img/load.jpg "M600 Load"
 
-- Send `M108` via your USB host.
-- Note for OctoPrint users: After sending `M108`, enable the advanced options at the bottom of the terminal and press `Fake Acknowledgement`
+- For printing via SD:
+  - Click `CONTINUE` on the screen
+- For printing via USB:
+  - Send `M108` via your USB host or use `FilamentChange Resume` in the Special Menu
+  - Note for OctoPrint users: After sending `M108`, enable the advanced options at the bottom of the terminal and press `Fake Acknowledgement`
 - The printer will now pull in the new filament, watch out since it might ooze quite a bit from the nozzle
 - Remove the excess filament from the nozzle with tweezers
 
@@ -241,7 +230,7 @@ After flashing the new version, issue a `M502` and `M500`. After that, enter eve
 
 ## Detailed changes:
 
-- Thermal runaway protection enabled and tweaked
+- Thermal runaway protection thresholds tweaked
 - Automatic bed leveling enabled ([check this link](http://marlinfw.org/docs/features/auto_bed_leveling.html) to learn more about it) - BLTouch required!
 - Manual mesh bed leveling possible ([check this link](https://github.com/MarlinFirmware/Marlin/wiki/Manual-Mesh-Bed-Leveling) to learn more about it)
 - Heatbed PID mode enabled
@@ -255,6 +244,8 @@ After flashing the new version, issue a `M502` and `M500`. After that, enter eve
 - Printcounter enabled (`M78`)
 - Clean Nozzle enabled
 - `M600` filament change feature enabled
+- Screen resume for `M600` implemented
+- Filament runout, stop and pause behaviour tweaked
 
 
 ## Changes by [derhopp](https://github.com/derhopp/):
